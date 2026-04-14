@@ -7,9 +7,23 @@
 library(targets)
 # library(tarchetypes) # Load other packages as needed.
 
+data_path <- config::get()$data_path
+project <- config::get()$project
+
 
 # Set target options:
-packages <- c("terra", "stringr", "tidyr", "purrr", "glue", "data.table", "foreach", "sp","dplyr","glmmTMB") # Packages that your targets need for their tasks.
+packages <- c(
+  "terra",
+  "stringr",
+  "tidyr",
+  "purrr",
+  "glue",
+  "data.table",
+  "foreach",
+  "sp",
+  "dplyr",
+  "glmmTMB"
+) # Packages that your targets need for their tasks.
 # format = "qs", # Optionally set the default storage format. qs is fast.
 #
 # Pipelines that take a long time to run may benefit from
@@ -21,10 +35,12 @@ packages <- c("terra", "stringr", "tidyr", "purrr", "glue", "data.table", "forea
 # which run as local R processes. Each worker launches when there is work
 # to do and exits if 60 seconds pass with no tasks to run.
 #
-controller = crew::crew_controller_local(workers = parallel::detectCores() - 1,
-                                         seconds_idle = 60)
+controller = crew::crew_controller_local(
+  workers = parallel::detectCores() - 1,
+  seconds_idle = 60
+)
 
-targets::tar_source("../predicts.tpds/R")
+targets::tar_source(file.path(data_path, "predicts.tpds/R"))
 targets::tar_source("R")
 #
 # Alternatively, if you want workers to run on a high-performance computing
@@ -70,149 +86,293 @@ targets::tar_option_set(
 )
 
 list(
-  tar_target(name = EI_predicts_data,
-             command = PreparePredictsEIData(
-               predicts_avonet_path = "../predicts-avonet-harmonisation/predicts.avonet-out/predicts-avonet-prepared-data.qs",
-               dir_out = "ei-out/")),
-  tar_target(name = predicts_site_overlap,
-             command = PREDICTSSiteOverlap(predicts_path = EI_predicts_data,
-                                           species_maps_dir = "../datasets/Birdlife_maps/PREDICTS_BL/",
-                                            dir_out = "ei-out/")),
-  tar_target(name = inventory_matrix,
-             command = SpeciesInventoryMatrix(species_maps_dir = "../datasets/Birdlife_maps/PREDICTS_BL/",
-                                              template_map = "ei-in/blank_map_1deg.tif",
-                                              dir_out = "ei-out/")),
-  tar_target(name = adf_matrix,
-              command = FocalSimilarity(predicts_path = EI_predicts_data,
-                                        predicts_species_overlap = predicts_site_overlap,
-                                        inventory_matrix = inventory_matrix,
-                                        template_map = "ei-in/blank_map_1deg.tif",
-                                        island_polys = "ei-in/assembly_islands.rds",
-                                        island_spp = "ei-in/assembly_island_spp.rds",
-                                        dir_out = "ei-out/")),
-  tar_target(name = regional_species_pool,
-             command = RegionalSpeciesPool(predicts_path = EI_predicts_data,
-                                           predicts_site_cells = "ei-out/predicts-sites-cells.qs",
-                                           adf_matrix = adf_matrix,
-                                           inventory_matrix = inventory_matrix,
-                                           island_spp = "ei-in/assembly_island_spp.rds",
-                                           dir_out = "ei-out/")),
-  tar_target(name = dispersal_probability,
-             command = DispersalProbabilities(predicts_path = EI_predicts_data,
-                                              species_maps_dir = "../datasets/Birdlife_maps/PREDICTS_BL/",
-                                              species_pools = regional_species_pool,
-                                              avonet_means = "../datasets/AVONET/avonet-birdlife-mean-traits.csv",
-                                              dir_out = "ei-out/"
-                                                )),
-  tar_target(name = environmental_affinity,
-             command = EnvironmentalAffinity(predicts_path = EI_predicts_data,
-                                             SDM_probabilities_dir = "../datasets/Bird_SDM_Projections_Probability/",
-                                             SDM_miss_sp = "ei-in/Miss_sp.csv", 
-                                             species_maps_dir = "../datasets/Birdlife_maps/PREDICTS_BL/", 
-                                             crosswalk_path = "../datasets/AVONET/BL_Jetz crosswalk v3.csv",
-                                             species_pools_path = regional_species_pool,
-                                             dir_out = "ei-out")),
-  tar_target(name = site_randomisations,
-             command = SiteRandomisations(predicts_path = EI_predicts_data,
-                                          dispersal_probabilities = dispersal_probability,
-                                          environmental_affinity = environmental_affinity, 
-                                          species_pools_path = regional_species_pool,
-                                          dir_out = "ei-out/")),
-  tar_target(name = ei_traits,
-             command = PREDICTSEITraits(
-               predicts_path = EI_predicts_data,
-               randomisations_path = site_randomisations,
-               avonet_specimen_data = "../datasets/AVONET/GBD_BiometricsRaw_combined_15_Sept_2021_MASTER.csv",
-               avonet_mean_data = "../datasets/AVONET/avonet-birdlife-mean-traits.csv",
-               dir_out = "ei-out/"
-             )),
-  
-  tar_target(name = trait_probability_densities,
-             command = PREDICTSEcosystemIntegrityTPDs(predicts_path = EI_predicts_data,
-                                                      randomisations_path = site_randomisations,
-                                                      species_pools_path = regional_species_pool, 
-                                                      ei_traits = ei_traits,
-                                                      avonet_means_path = "../datasets/AVONET/avonet-birdlife-mean-traits.csv",
-                                                      dir_out = "ei-out/")),
+  tar_target(
+    name = EI_predicts_data,
+    command = PreparePredictsEIData(
+      predicts_avonet_path = file.path(
+        data_path,
+        "predicts-avonet-harmonisation/predicts.avonet-out/predicts-avonet-prepared-data.qs"
+      ),
+      dir_out = file.path(data_path, project, "ei-out")
+    )
+  ),
+  tar_target(
+    name = predicts_site_overlap,
+    command = PREDICTSSiteOverlap(
+      predicts_path = EI_predicts_data,
+      species_maps_dir = file.path(
+        data_path,
+        "datasets/Birdlife_maps/PREDICTS_BL/"
+      ),
+      dir_out = file.path(data_path, project, "ei-out")
+    )
+  ),
+  tar_target(
+    name = inventory_matrix,
+    command = SpeciesInventoryMatrix(
+      species_maps_dir = file.path(
+        data_path,
+        "datasets/Birdlife_maps/PREDICTS_BL/"
+      ),
+      template_map = file.path(data_path, project, "ei-in/blank_map_1deg.tif"),
+      dir_out = file.path(data_path, project, "ei-out")
+    )
+  ),
+  tar_target(
+    name = adf_matrix,
+    command = FocalSimilarity(
+      predicts_path = EI_predicts_data,
+      predicts_species_overlap = predicts_site_overlap,
+      inventory_matrix = inventory_matrix,
+      template_map = file.path(data_path, project, "ei-in/blank_map_1deg.tif"),
+      island_polys = file.path(
+        data_path,
+        project,
+        "ei-in/assembly_islands.rds"
+      ),
+      island_spp = file.path(
+        data_path,
+        project,
+        "ei-in/assembly_island_spp.rds"
+      ),
+      dir_out = file.path(data_path, project, "ei-out")
+    )
+  ),
+  tar_target(
+    name = regional_species_pool,
+    command = RegionalSpeciesPool(
+      predicts_path = EI_predicts_data,
+      predicts_site_cells = file.path(
+        data_path,
+        project,
+        "ei-out/predicts-sites-cells.qs"
+      ),
+      adf_matrix = adf_matrix,
+      inventory_matrix = inventory_matrix,
+      island_spp = file.path(
+        data_path,
+        project,
+        "ei-in/assembly_island_spp.rds"
+      ),
+      dir_out = file.path(data_path, project, "ei-out")
+    )
+  ),
+  tar_target(
+    name = dispersal_probability,
+    command = DispersalProbabilities(
+      predicts_path = EI_predicts_data,
+      species_maps_dir = file.path(
+        data_path,
+        "datasets/Birdlife_maps/PREDICTS_BL/"
+      ),
+      species_pools = regional_species_pool,
+      avonet_means = file.path(
+        data_path,
+        "datasets/AVONET/avonet-birdlife-mean-traits.csv"
+      ),
+      dir_out = file.path(data_path, project, "ei-out")
+    )
+  ),
+  tar_target(
+    name = environmental_affinity,
+    command = EnvironmentalAffinity(
+      predicts_path = EI_predicts_data,
+      SDM_probabilities_dir = file.path(
+        data_path,
+        "datasets/Bird_SDM_Projections_Probability/"
+      ),
+      SDM_miss_sp = file.path(data_path, project, "ei-in/Miss_sp.csv"),
+      species_maps_dir = file.path(
+        data_path,
+        "datasets/Birdlife_maps/PREDICTS_BL/"
+      ),
+      crosswalk_path = file.path(
+        data_path,
+        "datasets/AVONET/BL_Jetz crosswalk v3.csv"
+      ),
+      species_pools_path = regional_species_pool,
+      dir_out = file.path(data_path, project, "ei-out")
+    )
+  ),
+  tar_target(
+    name = site_randomisations,
+    command = SiteRandomisations(
+      predicts_path = EI_predicts_data,
+      dispersal_probabilities = dispersal_probability,
+      environmental_affinity = environmental_affinity,
+      species_pools_path = regional_species_pool,
+      dir_out = file.path(data_path, project, "ei-out")
+    )
+  ),
+  tar_target(
+    name = ei_traits,
+    command = PREDICTSEITraits(
+      predicts_path = EI_predicts_data,
+      randomisations_path = site_randomisations,
+      avonet_specimen_data = file.path(
+        data_path,
+        "datasets/AVONET/GBD_BiometricsRaw_combined_15_Sept_2021_MASTER.csv"
+      ),
+      avonet_mean_data = file.path(
+        data_path,
+        "datasets/AVONET/avonet-birdlife-mean-traits.csv"
+      ),
+      dir_out = file.path(data_path, project, "ei-out")
+    )
+  ),
+
+  tar_target(
+    name = trait_probability_densities,
+    command = PREDICTSEcosystemIntegrityTPDs(
+      predicts_path = EI_predicts_data,
+      randomisations_path = site_randomisations,
+      species_pools_path = regional_species_pool,
+      ei_traits = ei_traits,
+      avonet_means_path = file.path(
+        data_path,
+        "datasets/AVONET/avonet-birdlife-mean-traits.csv"
+      ),
+      dir_out = file.path(data_path, project, "ei-out")
+    )
+  ),
   tar_target(
     name = realm_tpds,
-    command = PREDICTSEIRealmTPDs(predicts_path = EI_predicts_data,
-                                  randomisations_path = site_randomisations,
-                                  species_pools_path = regional_species_pool, 
-                                  ei_traits = ei_traits,
-                                  avonet_means_path = "../datasets/AVONET/avonet-birdlife-mean-traits.csv",
-                                  dir_out = "ei-out/")
+    command = PREDICTSEIRealmTPDs(
+      predicts_path = EI_predicts_data,
+      randomisations_path = site_randomisations,
+      species_pools_path = regional_species_pool,
+      ei_traits = ei_traits,
+      avonet_means_path = file.path(
+        data_path,
+        "datasets/AVONET/avonet-birdlife-mean-traits.csv"
+      ),
+      dir_out = file.path(data_path, project, "ei-out")
+    )
   ),
-  tar_target(name = site_combinations,
-             command = SiteCombinations(predicts_path = EI_predicts_data,dir_out = "ei-out")),
-  
-  tar_target(name = site_level_alpha,
-             command = PrepareSiteLevelAlphaMetrics(predicts_path = EI_predicts_data,
-                                                    predicts_site_tpd_path = trait_probability_densities[1],
-                                                    dir_out = "ei-out")),
-  tar_target(name = site_level_beta,
-             command = PrepareSiteLevelBetaMetrics(predicts_combinations_path = site_combinations,
-                                                    predicts_site_tpd_path = trait_probability_densities[1],
-                                                    dir_out = "ei-out")),
-  
-  tar_target(name = site_holes,
-             command = PrepareSiteHoles(predicts_path = EI_predicts_data,
-                                        predicts_site_tpd_path = trait_probability_densities[1],
-                                        predicts_randomisation_tpd_path = trait_probability_densities[2],
-                                        dir_out = "ei-out/"
-                                          )),
-  tar_target(name = trophic_level_alpha,
-             command = PrepareTrophicAlphaMetrics(predicts_path = EI_predicts_data,
-                                                   predicts_site_tpd_path = trait_probability_densities[1],
-                                                   dir_out = "ei-out")),
-  tar_target(name = trophic_level_beta,
-             command = PrepareTrophicBetaMetrics(predicts_combinations_path = site_combinations,
-                                                  predicts_site_tpd_path = trait_probability_densities[1],
-                                                  dir_out = "ei-out")),
-  tar_target(name = site_alpha_analysis,
-             command = SiteAlphaAnalysis(site_level_alpha_metrics = site_level_alpha,
-                                                      dir_out = "ei-out")
+  tar_target(
+    name = site_combinations,
+    command = SiteCombinations(
+      predicts_path = EI_predicts_data,
+      dir_out = file.path(data_path, project, "ei-out")
+    )
   ),
-  tar_target(name = site_beta_analysis,
-               command = SiteBetaAnalysis(site_beta_metrics = site_level_beta,
-                                                      dir_out = "ei-out")
-             ),
-  tar_target(name = site_hole_analysis,
-             command = SiteHolesAnalysis(site_level_hole_metrics = site_holes,
-                                        dir_out = "ei-out")
+
+  tar_target(
+    name = site_level_alpha,
+    command = PrepareSiteLevelAlphaMetrics(
+      predicts_path = EI_predicts_data,
+      predicts_site_tpd_path = trait_probability_densities[1],
+      dir_out = file.path(data_path, project, "ei-out")
+    )
   ),
-  tar_target(name = guilds_in_site,
-             command = TrophicNicheInSite(predicts_path = EI_predicts_data,
-                                                  dir_out = "ei-out")),
-  tar_target(name = guilds_in_block,
-             command = TrophicNicheInBlock(predicts_path = EI_predicts_data,
-                                          dir_out = "ei-out")),
-  tar_target(name = trophic_alpha_analysis,
-             command = TrophicRichnessAnalysis(trophic_alpha_metrics = trophic_level_alpha,
-                                               guilds_in_block = guilds_in_block,
-                                         dir_out = "ei-out")
+  tar_target(
+    name = site_level_beta,
+    command = PrepareSiteLevelBetaMetrics(
+      predicts_combinations_path = site_combinations,
+      predicts_site_tpd_path = trait_probability_densities[1],
+      dir_out = file.path(data_path, project, "ei-out")
+    )
   ),
-  tar_target(name = trophic_beta_analysis,
-             command = TrophicSimilarityAnalysis(trophic_beta_metrics = trophic_level_beta,
-                                                 guilds_in_site = guilds_in_site,
-                                               guilds_in_block = guilds_in_block,
-                                               dir_out = "ei-out")
+
+  tar_target(
+    name = site_holes,
+    command = PrepareSiteHoles(
+      predicts_path = EI_predicts_data,
+      predicts_site_tpd_path = trait_probability_densities[1],
+      predicts_randomisation_tpd_path = trait_probability_densities[2],
+      dir_out = file.path(data_path, project, "ei-out")
+    )
   ),
-  tar_target(name = site_alpha_figure,
-             command = PrepareSiteAlphaPlots(site_level_analysis = site_alpha_analysis,
-                                             alpha_data = site_level_alpha,
-                                             dir_out = "figures"
-                                              )),
-  tar_target(name = site_beta_figure,
-             command = PrepareSiteBetaPlots(site_level_analysis = site_beta_analysis,
-                                             beta_data = site_level_beta,
-                                             dir_out = "figures"
-             )),
-  tar_target(name = site_hole_figure,
-             command = PrepareSiteHolePlots(site_level_analysis = site_hole_analysis,
-                                            hole_data = site_holes,
-                                            dir_out = "figures"
-             ))
-  
-             
+  tar_target(
+    name = trophic_level_alpha,
+    command = PrepareTrophicAlphaMetrics(
+      predicts_path = EI_predicts_data,
+      predicts_site_tpd_path = trait_probability_densities[1],
+      dir_out = file.path(data_path, project, "ei-out")
+    )
+  ),
+  tar_target(
+    name = trophic_level_beta,
+    command = PrepareTrophicBetaMetrics(
+      predicts_combinations_path = site_combinations,
+      predicts_site_tpd_path = trait_probability_densities[1],
+      dir_out = file.path(data_path, project, "ei-out")
+    )
+  ),
+  tar_target(
+    name = site_alpha_analysis,
+    command = SiteAlphaAnalysis(
+      site_level_alpha_metrics = site_level_alpha,
+      dir_out = file.path(data_path, project, "ei-out")
+    )
+  ),
+  tar_target(
+    name = site_beta_analysis,
+    command = SiteBetaAnalysis(
+      site_beta_metrics = site_level_beta,
+      dir_out = file.path(data_path, project, "ei-out")
+    )
+  ),
+  tar_target(
+    name = site_hole_analysis,
+    command = SiteHolesAnalysis(
+      site_level_hole_metrics = site_holes,
+      dir_out = file.path(data_path, project, "ei-out")
+    )
+  ),
+  tar_target(
+    name = guilds_in_site,
+    command = TrophicNicheInSite(
+      predicts_path = EI_predicts_data,
+      dir_out = file.path(data_path, project, "ei-out")
+    )
+  ),
+  tar_target(
+    name = guilds_in_block,
+    command = TrophicNicheInBlock(
+      predicts_path = EI_predicts_data,
+      dir_out = file.path(data_path, project, "ei-out")
+    )
+  ),
+  tar_target(
+    name = trophic_alpha_analysis,
+    command = TrophicRichnessAnalysis(
+      trophic_alpha_metrics = trophic_level_alpha,
+      guilds_in_block = guilds_in_block,
+      dir_out = file.path(data_path, project, "ei-out")
+    )
+  ),
+  tar_target(
+    name = trophic_beta_analysis,
+    command = TrophicSimilarityAnalysis(
+      trophic_beta_metrics = trophic_level_beta,
+      guilds_in_site = guilds_in_site,
+      guilds_in_block = guilds_in_block,
+      dir_out = file.path(data_path, project, "ei-out")
+    )
+  ),
+  tar_target(
+    name = site_alpha_figure,
+    command = PrepareSiteAlphaPlots(
+      site_level_analysis = site_alpha_analysis,
+      alpha_data = site_level_alpha,
+      dir_out = file.path(data_path, project, "figures")
+    )
+  ),
+  tar_target(
+    name = site_beta_figure,
+    command = PrepareSiteBetaPlots(
+      site_level_analysis = site_beta_analysis,
+      beta_data = site_level_beta,
+      dir_out = file.path(data_path, project, "figures")
+    )
+  ),
+  tar_target(
+    name = site_hole_figure,
+    command = PrepareSiteHolePlots(
+      site_level_analysis = site_hole_analysis,
+      hole_data = site_holes,
+      dir_out = file.path(data_path, project, "figures")
+    )
+  )
 )
