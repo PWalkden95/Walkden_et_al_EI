@@ -13,32 +13,6 @@ trophic_alpha_model|stem|b236f8f6cf18e152|7ac8a89a3ee47d28|79438900d40b3f10|-213
 SiteFunctionalRichnessAnalysis|function|f8960a29cc2d1e45
 site_alpha_model|stem|37c328042f90066f|10733f7872ce8143|61951f9336cddfe9|890077681||t20381.480790429s|s82b|82|rds|local|vector|||13.77||
 trophic_beta_model|stem|b16003eac6e56123|90673d87a13ea7a2|c416cddf316d8a82|-755518457||t20381.481548677s|s84b|84|rds|local|vector|||79.27||
-inventory_matrix|stem|4477087a7aac5842|f005d11e6a693524|c87376ab5fe9a886|-2062488720||t20545.3293130494s|s88b|88|rds|local|vector|||1976.704||
-EI_predicts_data|stem|dfaed436e5d67d21|2751cd2156bbe1d8|282422d1ce95bd87|1064350471||t20545.3350468921s|s86b|86|rds|local|vector|||2.881||
-site_combinations|stem|7acf5d7151d14aa1|8d1bbeef1133d0d0|11ab21b36a327830|-86393590||t20545.3350845686s|s80b|80|rds|local|vector|||3.019||
-guilds_in_site|stem|bc9ae8edf4f46dfe|8a2edbf6628a0895|9ac7ff87ae5edce5|832884730||t20545.3351162007s|s87b|87|rds|local|vector|||3.302||
-guilds_in_block|stem|421592e9988e2931|899b9457a2f57354|839c1655b1bd240b|1029009338||t20545.3351162002s|s87b|87|rds|local|vector|||3.305||
-predicts_site_overlap|stem|232c2984a3f0b208|ed68bdb1b20b3a11|0c9ba736db8522e7|-767638781||t20545.3355846582s|s93b|93|rds|local|vector|||43.777||
-adf_matrix|stem|e04a99a63cf829fb|2a6b186705a2c4f9|9e126834496cf82f|-1799344745||t20545.3461463946s|s85b|85|rds|local|vector|||912.331||
-regional_species_pool|stem|519751e1138092e9|f29dae75543bf39b|e1c294503d0f5d06|-169434029||t20545.3462361316s|s100b|100|rds|local|vector|||7.452||
-site_beta_figure|stem|a13256a74f0497bb|640b06019b9353f3|eab0b232c5d7db07|737611646||t20476.5507060185s|s168b|168|rds|local|vector|||17.911||
-site_hole_figure|stem|ab9579dbb3da709d|ba5fc994c12c4853|5ec22565f02f9c20|320762827||t20476.5506712963s|s97b|97|rds|local|vector|||2.431|Removed 36 rows containing missing values or values outside the scale range (`geom_point()`).|
-site_alpha_figure|stem|4455417f3182adc1|6a7b5963fadeadad|d6ebe832c61f8eec|961408110||t20476.5506828704s|s165b|165|rds|local|vector|||6.525||
-environmental_affinity|stem|b4a8bea23547a011|a5ed650d277d6bcf|4a60347e3318588b|-1819228729||t20545.3967835662s|s98b|98|rds|local|vector|||383.841||
-dispersal_probability|stem|a5438a1f47332524|7c8d4cac89aaff28|7b962298b0b05004|-330743440||t20545.4077855528s|s98b|98|rds|local|vector|||1334.413||
-site_randomisations|stem|44877461345e0a02|06fb5ddf9830aaf2|4aebb80bf45047c3|-2123385573||t20545.4103825399s|s83b|83|rds|local|vector|||224.04||
-ei_traits|stem|a5f80beb80e6bd81|933afae346241f56|760998ab03f25f93|2052658873||t20545.4113040002s|s81b|81|rds|local|vector|||79.183||
-trait_probability_densities|stem|f0ca2e6b5296d6c0|6c580a0c9744b0fe|2c06c33b59c018a3|-1948102243||t20545.4282132718s|s103b|103|rds|local|vector|||1456.394||
-site_level_beta|stem|eba77be233cd6816|c0198ed99284a80b|103055bfb2d5acc1|-98044422||t20545.4284067535s|s80b|80|rds|local|vector|||16.243||
-trophic_level_beta|stem|335579d8de9d1816|37f8f034478ad180|e8928056856007b5|594687291||t20545.4303094074s|s83b|83|rds|local|vector|||178.297||
-trophic_beta_analysis|stem|b16003eac6e56123|90673d87a13ea7a2|1176307b8883b0a2|790384732||t20545.431021428s|s84b|84|rds|local|vector|||61.273|Can't calculate model's distribution-specific variance. Results are not   reliable.   A reason can be that the null model could not be computed manually. Try   to fit the null model manually and pass it to `null_model`.|
-site_beta_analysis|stem|37b1ca8db68fe903|592a3f7b3922bb0f|8e4fe978eb29a9b2|1116658033||t20545.4325795559s|s81b|81|rds|local|vector|||360.275||
-trophic_level_alpha|stem|80f797427df2d19a|395823faa60de8d8|bc9d0580891eb041|-1135257366||t20545.4982237183s|s84b|84|rds|local|vector|||15.905||
-trophic_alpha_analysis|stem|b236f8f6cf18e152|7ac8a89a3ee47d28|5486ee7fff81a292|1502189415||t20545.4982917857s|s85b|85|rds|local|vector|||5.544|Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0. ℹ Please use `linewidth` instead. ℹ The deprecated feature was likely used in the see package.   Please report the issue at <https://github.com/easystats/see/issues>.|
-site_holes|stem|f3531bcca3f97d4c|538c6b7b7885555d|f1df6788a3624b7e|-124476407||t20545.498421845s|s81b|81|rds|local|vector|||33.047||
-site_level_alpha|stem|08fd978325f35e45|bd4163fd86f9148b|775b112ce5a5575e|422488541||t20545.49862169s|s81b|81|rds|local|vector|||50.312||
-site_alpha_analysis|stem|37c328042f90066f|10733f7872ce8143|bca12477d273b003|2113917969||t20545.4992728927s|s82b|82|rds|local|vector|||21.343||
-site_hole_analysis|stem|0c67a86d177448fe|63e6a5edeea48a2a|2b7178511fc1d293|32366367||t20545.5010214339s|s82b|82|rds|local|vector|||172.441||
 .CalcTraitRange|function|8ec0b16c5a8f7354
 eTPDc|function|90f8d1f2a71ee074
 eTPDs|function|7d9dc464865f4ec5
@@ -56,18 +30,20 @@ SiteRandomisations|function|d8e11536f0a7768f
 TrophicSimilarityAnalysis|function|aec5652589ae6726
 eTPDFunctionalMetricsBeta|function|b1ba00e4921fb756
 .TwoStepPCA|function|9109c03e7abe9a1f
-.Random.seed|object|af946eb6d5f05f96
+.Random.seed|object|056d0bd620f44bff
 eTPDc_holes|function|a83c6a3fb65e2000
 RegionalSpeciesPool|function|2114009de4b1efd8
-controller|object|2bc65ad239bb642b
+controller|object|a1e88f69c487bb57
 TrophicNicheInBlock|function|9c938a349f5b1fe3
 SiteCombinations|function|914478c57fa0f8e1
 .SiteLevelPlot|function|2e786c44bc381c13
+data_path|object|698be0a3da3f396c
 PrepareExemplarTPDPlot|function|4e9accbde9452b5e
 .SpeciesCellSimilarity|function|28cace2cecae1ce4
 packages|object|607b655dc4797f75
 PrepareTrophicAlphaPlots|function|a47fc43279fb6ea4
 TrophicRichnessAnalysis|function|c5b321f52de34ee3
+project|object|a98323b928cb5ef5
 PreparePredictsEIData|function|6d2c35ad0c1cae8b
 PrepareTrophicBetaPlots|function|203598de752ee9a8
 PrepareSamplingPlots|function|19b28b5dc730252b
@@ -93,4 +69,30 @@ FocalSimilarity|function|2cf95036af79f13c
 PrepareTrophicAlphaMetrics|function|43eb6097d9089997
 PrepareSiteLevelAlphaMetrics|function|b62747ea9b41c6ba
 PREDICTSEITraits|function|74d91b08037b6097
-realm_tpds|stem|b73f7ac7bdb6c10c|f887384c18657eb5|044ef15d8151574d|1577972116||t20545.5641932987s|s103b|103|rds|local|vector|||305.557||
+EI_predicts_data|stem|3be5a4aa690d3c82|bbd212a76bc3e967|b8b953a93d582529|1064350471||t20559.3558081448s|s193b|193|rds|local|vector|||6.381||
+guilds_in_block|stem|ba998d103827bed6|afbbb568f7966379|5e5625aeeab24722|1029009338||t20559.3558418564s|s196b|196|rds|local|vector|||0.1||
+site_combinations|stem|ca9bb54129c93c51|1a0970bcb305e532|09387dd780788c57|-86393590||t20559.3558808404s|s192b|192|rds|local|vector|||5.984||
+guilds_in_site|stem|0b685195e5bb3adb|e37080ef0e7e71b8|cbc378f5e625d53d|832884730||t20559.355883237s|s197b|197|rds|local|vector|||3.675||
+predicts_site_overlap|stem|07fdd0ff4b1412cb|383767207352197b|a5c20911169ca74c|-767638781||t20559.3700097407s|s199b|199|rds|local|vector|||1224.204||
+inventory_matrix|stem|44beb2e61164d04d|d26b62b885b45cb2|6749f2b1856e3363|-2062488720||t20559.3730065408s|s197b|197|rds|local|vector|||1492.282||
+adf_matrix|stem|a87d8d13efac3d51|e7a2ef4cc7f5f10d|a23cc09e0340ddb3|-1799344745||t20559.3845640196s|s195b|195|rds|local|vector|||997.673||
+regional_species_pool|stem|8edd50c5879bb568|4771e4d6419928e4|650b88d8af016a3c|-169434029||t20559.3846418699s|s206b|206|rds|local|vector|||6.435||
+environmental_affinity|stem|ddf97a1e86cee6fb|870a8378bda4b1a5|eea4d41130ae2859|-1819228729||t20559.4008556261s|s206b|206|rds|local|vector|||1400.62||
+dispersal_probability|stem|1d4653f0320bbae2|a194cd0b63234626|0a8938ce6e8c98fb|-330743440||t20559.4009700001s|s203b|203|rds|local|vector|||1406.817||
+site_randomisations|stem|7dc3fc0edf06c85d|7a0e69235cce1c18|a6726ede50d210af|-2123385573||t20559.4038235875s|s193b|193|rds|local|vector|||246.214||
+ei_traits|stem|23c4516cd1459ff6|52c4629b4026180f|cba621048c632d0b|2052658873||t20559.4047826754s|s190b|190|rds|local|vector|||82.416||
+realm_tpds|stem|8edf2132af05346b|599fe47e4f238ce2|afec292fe8af2c4b|1577972116||t20559.4133379097s|s217b|217|rds|local|vector|||738.365||
+trait_probability_densities|stem|dd2b97e697aa0488|c93cc804642cf480|cf444109af07ef9d|-1948102243||t20559.422862425s|s216b|216|rds|local|vector|||1556.793||
+site_level_beta|stem|95a736458faae7cb|8fff20ab78bfcae1|8f03c2cdc61dce0d|-98044422||t20559.4230654995s|s192b|192|rds|local|vector|||17.047||
+trophic_level_alpha|stem|1b9c4f82cd4f9e59|e2c9712b01881aae|7fe20ebdcd488156|-1135257366||t20559.4230752949s|s195b|195|rds|local|vector|||15.504||
+trophic_alpha_analysis|stem|0902ae7a97003a67|21d0b9abde8963c7|ea9131b6fe862537|1502189415||t20559.4231376021s|s195b|195|rds|local|vector|||5.167|Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0. ℹ Please use `linewidth` instead. ℹ The deprecated feature was likely used in the see package.   Please report the issue at <https://github.com/easystats/see/issues>.|
+site_holes|stem|dd08c6f0a89a06e4|754440ad03baf4a0|346a44ecdfed57eb|-124476407||t20559.4232352416s|s192b|192|rds|local|vector|||29.319||
+site_level_alpha|stem|956c38963bd452a7|837bea7b99eb5a0c|be64a25b44354ffa|422488541||t20559.4234606632s|s193b|193|rds|local|vector|||48.801||
+site_alpha_analysis|stem|7238eea3a338e4f0|444240a632198d91|ca296209d4ca594a|2113917969||t20559.4236305009s|s193b|193|rds|local|vector|||14.453||
+site_alpha_figure|stem|4455417f3182adc1|7bee58fbb0327543|71bc3c486f047ff8|961408110||t20476.5506828704s||165|rds|local|vector|||0.195||QS format not detected
+site_hole_analysis|stem|300451496ceb9da9|6e63fa82a6c05ba3|e320bae970d70133|32366367||t20559.4248920223s|s192b|192|rds|local|vector|||142.923||
+site_hole_figure|stem|ab9579dbb3da709d|7cca170f21cf4515|caa64c0d991297dd|320762827||t20476.5506712963s||97|rds|local|vector|||0.024||QS format not detected
+trophic_level_beta|stem|7baa9bcd44ab8664|27be99a074954b28|a7238583e8a74f49|594687291||t20559.4250481961s|s194b|194|rds|local|vector|||185.962||
+trophic_beta_analysis|stem|b8bd52bf907a9225|c3978e6bc1010b25|e9dadacf2538f67e|790384732||t20559.4258001861s|s193b|193|rds|local|vector|||64.787|Can't calculate model's distribution-specific variance. Results are not   reliable.   A reason can be that the null model could not be computed manually. Try   to fit the null model manually and pass it to `null_model`.|
+site_beta_analysis|stem|36cd5fe59ff55bc2|cd7649c1ea48bfd8|1bb77f48e04b8245|1116658033||t20559.4275302571s|s192b|192|rds|local|vector|||385.482||
+site_beta_figure|stem|a13256a74f0497bb|ef66cf97f74da15a|b655a678f0e31a20|737611646||t20476.5507060185s||168|rds|local|vector|||0.022||QS format not detected
